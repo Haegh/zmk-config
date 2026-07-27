@@ -6,10 +6,10 @@
 &base_layer {
   display-name = "Base";
   bindings = <SELENIUM_KEYMAP_BINDINGS(
-    &kp Z  ,  &kp Q  &kp W  &kp E  &kp R  &kp T   ,   &kp N  &kp U  &kp I     &dead_key &kp P     ,  &kp FSLH ,
-    &kp Z  ,  HRM_A  HRM_S  HRM_D  HRM_F  &kp G   ,   &kp H  HRM_J  HRM_K     HRM_L     HRM_SEMI  ,  &kp FSLH ,
-    &none  ,  &kp Q  &kp X  &kp C  &kp V  &kp B   ,   &kp Y  &kp M  &kp COMMA &kp DOT   &kp P     ,  &none    ,
-        LTHUMB_TUCK,  LTHUMB_HOME,  LTHUMB_REACH  ,   RTHUMB_REACH,  RTHUMB_HOME,  RTHUMB_TUCK
+    &kp Z  ,  &kp Q  &kp W  &kp E  &kp R  &kp T   ,   &kp N  &kp U  &kp I     &apos   &kp P     ,  &kp FSLH ,
+    &kp Z  ,  HRM_A  HRM_S  HRM_D  HRM_F  &kp G   ,   &kp H  HRM_J  HRM_K     HRM_L   HRM_SEMI  ,  &kp FSLH ,
+    &none  ,  &kp Q  &kp X  &kp C  &kp V  &kp B   ,   &kp Y  &kp M  &kp COMMA &kp DOT &kp P     ,  &none    ,
+        LTHUMB_TUCK , LTHUMB_HOME , LTHUMB_REACH  ,   RTHUMB_REACH , RTHUMB_HOME , RTHUMB_TUCK
   )>;
 };
 
@@ -24,66 +24,53 @@
   )>;
 };
 
-
 / {
-    behaviors {
-        // Swap out the standard dead key for a one-shot layer to override some of the keys
-        dead_key: dead_key {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&EZ_SL(ODK_LAYER)>, <&kp O>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-            keep-mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
+  behaviors {
+    // Swap out the standard dead key for a one-shot layer to override some of the keys
+    TWO_LEVEL_KEY(apos, &EZ_SL(ODK_LAYER), S_EXCL) // ' ! (1dk)
+    TWO_LEVEL_KEY(em_dash, &odk V, &odk B) // – — (en-dash, em-dash)
 
-        // Macro to tap Ergo‑L’s ODK before the specified key
-        odk: one_dead_key_macro {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            tap-ms = <0>;
-            wait-ms = <0>;
-            bindings
-                = <&macro_tap &kp O>
-                , <&macro_param_1to1>
-                , <&macro_tap &kp MACRO_PLACEHOLDER>
-                ;
-        };
-
-        // Same as `odk`, but adds Shift to the speicied key
-        odks: one_dead_key_shift_macro {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            tap-ms = <0>;
-            wait-ms = <0>;
-            bindings
-                = <&macro_tap &kp O>
-                , <&macro_press &kp LSHIFT>
-                , <&macro_param_1to1>
-                , <&macro_tap &kp MACRO_PLACEHOLDER>
-                , <&macro_release &kp LSHIFT>
-                ;
-        };
+  #ifdef ENABLE_FANCY_DEAD_KEYS
+    #define SHIFT_KEY &EZ_SK(LSHIFT)
+    odk: odk {
+      compatible = "zmk,behavior-dead-key";
+      #binding-cells = <1>;
+      dead-key = <O>;
     };
-};
+  #else
+    // Macro to tap Ergo‑L’s ODK before the specified key
+    DEAD_KEY(odk, &kp O)
+    #define SHIFT_KEY &EZ_SL(ODK_SHIFT_LAYER)
+  #endif
+    // Same as `odk`, but adds Shift to the specified key
+    DEAD_KEY_SHIFT(odks, &kp O)
 
-// Extra layers defned specifically for this keymap.
-// They are appended at the end of the base keymap.
-/ {
+    dknum: dead_key_numbers {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      tap-ms = <0>;
+      wait-ms = <0>;
+      bindings = <&kp O &osl NUM_LAYER>;
+    };
+  };
+
+  // Extra layers defined specifically for this keymap.
+  // They are appended at the end of the base keymap.
   keymap {
     compatible = "zmk,keymap";
 
     one_dead_key {
-      display-name = "OneDeadKey";
+      display-name = "1dk";
       bindings = <SELENIUM_KEYMAP_BINDINGS(
-        &trans  ,  &odk Q  &odk W  &odk E  &odk R  &kp Z   ,   &odk N  &kp Y    &odk I     &odk O   &odk P    ,  &trans ,
-        &trans  ,  &odk A  &odk S  &odk D  &odk F  &kp B   ,   &odk H  &odk J   &odk K     &odk L   &odk SEMI ,  &trans ,
-        &trans  ,  &odk Q  &odk Z  &odk C  &odk V  &trans  ,   &trans  &kp FSLH &odk COMMA &odk DOT &odk P    ,  &trans ,
-            &EZ_SL(ODK_SHIFT_LAYER) , &odk SPACE , &trans  ,   &trans , &odk SPACE , &trans
+        &trans  ,  &odk Q  &odk W  &odk E  &odk R   &kp Z   ,   &odk N  &kp Y    &odk I     &odk O   &odk P    ,  &trans ,
+        &trans  ,  &odk A  &odk S  &odk D  &odk F   &kp B   ,   &odk H  &odk J   &odk K     &odk L   &odk SEMI ,  &trans ,
+        &trans  ,  &odk Q  &odk Z  &odk C  &em_dash &trans  ,   &trans  &kp FSLH &odk COMMA &odk DOT &odk P    ,  &trans ,
+                               SHIFT_KEY , &dknum , &trans  ,   &trans , &odk SPACE , &trans
       )>;
     };
 
     shifted_one_dead_key {
-      display-name = "ShiftedOneDeadKey";
+      display-name = "1dkShift";
       bindings = <SELENIUM_KEYMAP_BINDINGS(
         &trans  ,  &odks Q  &odks W  &odks E  &odks R  &kp LS(Z)   ,   &odks N  &kp LS(Y)    &odks I     &odks O   &odks P    ,  &trans ,
         &trans  ,  &odks A  &odks S  &odks D  &odks F  &kp LS(B)   ,   &odks H  &odks J      &odks K     &odks L   &odks SEMI ,  &trans ,
@@ -98,7 +85,7 @@
         &trans  ,  &trans  &trans  &trans  &trans  &trans   ,   &trans  &trans  &trans  &trans  &trans  ,  &trans ,
         &trans  ,  S_TILDE &trans  &trans  S_HASH  &trans   ,   &trans  S_PIPE  &trans  &trans  S_QMARK ,  &trans ,
         &trans  ,  &trans  &trans  &trans  &trans  &trans   ,   &trans  &trans  &trans  &trans  &trans  ,  &trans ,
-                                &trans , &trans , &trans   ,   &trans , &trans , &trans
+                                 &trans , &trans , &trans   ,   &trans , &trans , &trans
       )>;
     };
 
