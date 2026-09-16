@@ -94,7 +94,8 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
     }
 
     lv_area_set(&coords, 0, 0, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
-    lv_draw_label(&layer, &label_dsc, &coords, output_text);
+    label_dsc.text = output_text;
+    lv_draw_label(&layer, &label_dsc, &coords);
 
     // Draw WPM
     lv_area_set(&coords, 0, 21, 67, 62);
@@ -105,7 +106,8 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
     char wpm_text[6] = {};
     snprintf(wpm_text, sizeof(wpm_text), "%d", state->wpm[9]);
     lv_area_set(&coords, 42, 52, 65, CANVAS_SIZE - 1);
-    lv_draw_label(&layer, &label_dsc_wpm, &coords, wpm_text);
+    label_dsc_wpm.text = wpm_text;
+    lv_draw_label(&layer, &label_dsc_wpm, &coords);
 
     int max = 0;
     int min = 256;
@@ -196,7 +198,9 @@ static void draw_middle(lv_obj_t *widget, lv_color_t cbuf[], const struct status
         snprintf(label, sizeof(label), "%d", i + 1);
         lv_area_set(&coords, circle_offsets[i][0] - 8, circle_offsets[i][1] - 10,
                     circle_offsets[i][0] + 7, CANVAS_SIZE - 1);
-        lv_draw_label(&layer, (selected ? &label_dsc_black : &label_dsc), &coords, label);
+        lv_draw_label_dsc_t *label_dsc_ptr = selected ? &label_dsc_black : &label_dsc;
+        label_dsc_ptr->text = label;
+        lv_draw_label(&layer, label_dsc_ptr, &coords);
     }
 
     // Rotate canvas
@@ -229,10 +233,12 @@ static void draw_bottom(lv_obj_t *widget, lv_color_t cbuf[], const struct status
         sprintf(text, "LAYER %i", state->layer_index);
 
         lv_area_set(&coords, 0, 5, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
-        lv_draw_label(&layer, &label_dsc, &coords, text);
+        label_dsc.text = text;
+        lv_draw_label(&layer, &label_dsc, &coords);
     } else {
         lv_area_set(&coords, 0, 5, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
-        lv_draw_label(&layer, &label_dsc, &coords, state->layer_label);
+        label_dsc.text = state->layer_label;
+        lv_draw_label(&layer, &label_dsc, &coords);
     }
 
     // Rotate canvas

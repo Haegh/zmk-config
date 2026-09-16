@@ -55,8 +55,8 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
 
     // Draw output status
     lv_area_set(&coords, 0, 0, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
-    lv_draw_label(&layer, &label_dsc, &coords,
-                  state->connected ? LV_SYMBOL_WIFI : LV_SYMBOL_CLOSE);
+    label_dsc.text = state->connected ? LV_SYMBOL_WIFI : LV_SYMBOL_CLOSE;
+    lv_draw_label(&layer, &label_dsc, &coords);
 
     // Rotate canvas
     rotate_canvas(&layer, cbuf);
