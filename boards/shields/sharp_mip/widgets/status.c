@@ -47,6 +47,12 @@ struct wpm_status_state {
 static void draw_top(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);
 
+#if defined(CONFIG_SHARP_MIP_WIDGET_NO_DRAW)
+    (void)canvas;
+    (void)state;
+    return;
+#endif
+
     lv_draw_label_dsc_t label_dsc;
     init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_16, LV_TEXT_ALIGN_RIGHT);
     lv_draw_label_dsc_t label_dsc_wpm;
@@ -127,6 +133,12 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state) {
 static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 1);
 
+#if defined(CONFIG_SHARP_MIP_WIDGET_NO_DRAW)
+    (void)canvas;
+    (void)state;
+    return;
+#endif
+
     lv_draw_rect_dsc_t rect_black_dsc;
     init_rect_dsc(&rect_black_dsc, LVGL_BACKGROUND);
     lv_draw_label_dsc_t label_dsc;
@@ -170,6 +182,12 @@ static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
 
 static void draw_bottom(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 2);
+
+#if defined(CONFIG_SHARP_MIP_WIDGET_NO_DRAW)
+    (void)canvas;
+    (void)state;
+    return;
+#endif
 
     lv_draw_rect_dsc_t rect_black_dsc;
     init_rect_dsc(&rect_black_dsc, LVGL_BACKGROUND);

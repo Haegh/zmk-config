@@ -51,6 +51,20 @@ include:
     cmake-args: -DCONFIG_ZMK_DISPLAY_STATUS_SCREEN_BUILT_IN=y -DCONFIG_SHARP_MIP_WIDGET_STATUS=n
     artifact-name: piantor_pro_bt_left_builtin_screen
 
+  # DIAGNOSTIC (i): custom screen init, zero widget drawing (bisects init vs drawing)
+  - board: piantor_pro_bt_left//zmk
+    shield: sharp_mip
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_SHARP_MIP_WIDGET_NO_DRAW=y
+    artifact-name: piantor_pro_bt_left_nodraw
+
+  # DIAGNOSTIC (ii): full widgets, large LVGL heap (tests heap exhaustion)
+  - board: piantor_pro_bt_left//zmk
+    shield: sharp_mip
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_LV_Z_MEM_POOL_SIZE=16384
+    artifact-name: piantor_pro_bt_left_bigheap
+
   - board: piantor_pro_bt_left//zmk
     shield: settings_reset
     snippet: studio-rpc-usb-uart

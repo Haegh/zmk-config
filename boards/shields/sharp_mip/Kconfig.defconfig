@@ -42,6 +42,9 @@ config SHARP_MIP_WIDGET_INVERTED
 config SHARP_MIP_ROTATE_180
     bool "Rotate Sharp MIP display 180 degrees"
 
+config SHARP_MIP_WIDGET_NO_DRAW
+    bool "Skip widget drawing, init only (diagnostic)"
+
 if !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
 
 config SHARP_MIP_WIDGET_STATUS
