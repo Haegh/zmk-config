@@ -2,13 +2,13 @@
 // https://github.com/OneDeadKey/selenium
 
 // Standard ZMK headers
-#include "behaviors.dtsi"         // standard behaviors defined by ZMK
-#include "dt-bindings/zmk/keys.h" // human-readable keycodes and modifiers
-#include "dt-bindings/zmk/bt.h"   // bluetooth behaviors (see fn/media layer)
+#include <behaviors.dtsi>         // standard behaviors defined by ZMK
+#include <dt-bindings/zmk/keys.h> // human-readable keycodes and modifiers
+#include <dt-bindings/zmk/bt.h>   // bluetooth behaviors (see fn/media layer)
 
 // Community module headers
-#include "behaviors/mod-hold.dtsi" // Provides helper macros for the mod-hold behavior
-#include "behaviors/dead-key.dtsi" // Provides helper macros for the dead-key behavior
+#include <behaviors/mod-hold.dtsi> // Provides helper macros for the mod-hold behavior
+#include <behaviors/dead-key.dtsi> // Provides helper macros for the dead-key behavior
 
 #ifndef CI_IGNORE_USER_SETTINGS
   #include "settings.h"   // user settings
