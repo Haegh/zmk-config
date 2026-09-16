@@ -10,7 +10,7 @@
 // a non-QWERTY-ANSI keyboard layout. This is required to set an appropriate
 // 'Symbols' layer and relevant keyboard shortcuts in the 'Nav' layer.
 
-// #define KB_LAYOUT_AZERTY            // France
+#define KB_LAYOUT_AZERTY            // France
 // #define KB_LAYOUT_BEPO              // France
 // #define KB_LAYOUT_BEPOLAR           // France
 // #define KB_LAYOUT_DVORAK            // US
@@ -42,7 +42,7 @@
 // Uncomment one of the following lines if the host computer doen't run Windows.
 
 // #define MACOS
-// #define LINUX
+#define LINUX
 
 
 /******************************************************************************
@@ -58,7 +58,7 @@
 // Alternatively, you may uncomment the last line to use the outer columns
 // for 4 extra alpha keys instead of the default Tab, Escape, Backspace, Enter.
 
-// #define KB_EXTRA_LAYERS_AUTO      // default (recommended)
+#define KB_EXTRA_LAYERS_AUTO      // default (recommended)
 // #define KB_EXTRA_LAYERS_ALTGR     // default for LV, PL, RO
 // #define KB_EXTRA_LAYERS_ALPINE    // default for CH, DE, IT
 // #define KB_EXTRA_LAYERS_IBERICAN  // default for BR, ES, LATAM, PT
@@ -81,7 +81,7 @@
 // #define KB_EMULATION_COLEMAK          // host: QWERTY
 // #define KB_EMULATION_COLEMAK_DH       // host: QWERTY
 // #define KB_EMULATION_DVORAK           // host: QWERTY
-// #define KB_EMULATION_ERGOL            // host: QWERTY-intl or AZERTY
+#define KB_EMULATION_ERGOL            // host: QWERTY-intl or AZERTY
 // #define KB_EMULATION_QWERTY_LAFAYETTE // host: QWERTY-intl or AZERTY
 
 // [Experimental]
@@ -106,7 +106,7 @@
 
 // #define HT_NONE
 // #define HT_THUMB_TAPS
-// #define HT_HOME_ROW_MODS  // (default behavior)
+#define HT_HOME_ROW_MODS  // (default behavior)
 // #define HT_TWO_THUMB_KEYS
 
 // Timing is key! Keep the default value if unsure.
@@ -115,20 +115,20 @@
 // are the ones that may produce text, including the space bar and home row mods.
 // Keep this value high if you struggle with home row mods.
 
-// #define TAPPING_TERM 300
+#define TAPPING_TERM 300
 
 // This defines how quickly (in ms) you need to press and release a hold-tap
 // with the "hold-preferred" flavor for it to be considered a tap. These
 // hold-taps include the ones that don’t produce text when tapped.
 // Keep this value low if you press Enter or Escape by mistake too often.
 
-// #define SHORT_TAPPING_TERM 150
+#define SHORT_TAPPING_TERM 150
 
 // When tapping then holding the same tap-hold, if the delay between the two
 // key presses is lower than `QUICK_TAP`, the tap-hold will hold the tap action
 // instead of the hold action. Again, keep the default value if unsure.
 
-// #define QUICK_TAP 200
+#define QUICK_TAP 200
 
 // For more information on how hold-taps operate, feel free to read ZMK’s docs:
 // https://zmk.dev/docs/keymaps/behaviors/hold-tap
@@ -144,7 +144,7 @@
 //  + Escape under the left thumb (direct access)
 // Highly recommended for Vim users, obviously. :-)
 
-// #define VIM_NAVIGATION
+#define VIM_NAVIGATION
 
 // [Experimental]
 // Uncomment the following line to enable the Callum variant of the previous
