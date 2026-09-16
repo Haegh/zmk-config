@@ -25,7 +25,7 @@ choice ZMK_DISPLAY_STATUS_SCREEN
 endchoice
 
 config LV_Z_MEM_POOL_SIZE
-    default 4096 if ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
+    default 16384 if ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
 
 config ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
     imply SHARP_MIP_WIDGET_STATUS
@@ -41,9 +41,6 @@ config SHARP_MIP_WIDGET_INVERTED
 
 config SHARP_MIP_ROTATE_180
     bool "Rotate Sharp MIP display 180 degrees"
-
-config SHARP_MIP_WIDGET_NO_DRAW
-    bool "Skip widget drawing, init only (diagnostic)"
 
 if !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
 
