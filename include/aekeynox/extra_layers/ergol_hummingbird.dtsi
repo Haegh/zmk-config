@@ -1,0 +1,85 @@
+#define ODK_LAYER        EXTRA_LAYERS_START_INDEX
+#define ODK_SHIFT_LAYER (EXTRA_LAYERS_START_INDEX + 1)
+#define EXTRA_SYM_LAYER (EXTRA_LAYERS_START_INDEX + 2)
+
+// Override the base layer to replace Ergo‑L’s OneDeadKey
+&base_layer {
+  bindings = <SELENIUM_KEYMAP_BINDINGS(
+    &kp LTOP   ,  &kp Q  &kp W  &kp E  &kp R  &kp T   ,   &kp N  &kp U  &kp I     &apos   &kp P     ,  &kp RTOP   ,
+    &kp LHOME  ,  &H4 A  &H3 S  &H2 D  &H1 F  &kp G   ,   &kp H  &H1 J  &H2 K     &H3 L   &H4 SEMI  ,  &kp RHOME  ,
+    &kp LSHIFT ,  &kp Z  &kp X  &kp C  &kp V  &kp B   ,   &kp Y  &kp M  &kp COMMA &kp DOT &kp FSLH  ,  &kp RSHIFT ,
+        LTHUMB_TUCK , LTHUMB_HOME , LTHUMB_REACH  ,   RTHUMB_REACH , RTHUMB_HOME , RTHUMB_TUCK
+  )>;
+};
+
+// Override the symbols layer to add a sticky layer to the missing symbols
+&symbols_layer {
+  bindings = <SELENIUM_KEYMAP_BINDINGS(
+    &trans  ,  S_CARET S_LT    S_GT    S_DLLR  S_PRCNT     ,   S_AT    S_AMPS  S_STAR  S_SQT   S_GRAVE  ,  &trans ,
+    &trans  ,  S_LBRC  S_LPAR  S_RPAR  S_RBRC  S_EQUAL     ,   S_BSLH  S_PLUS  S_MINUS S_FSLH  S_DQT    ,  &trans ,
+    &trans  ,  S_CARET S_LBKT  S_RBKT  S_UNDER S_HASH      ,   S_PIPE  S_EXCL  S_SEMI  S_COLON S_GRAVE  ,  &trans ,
+    SYM_NUM_LAYER , &kp SPACE , &sc EXTRA_SYM_LAYER ENTER  ,   &trans , &kp RALT , &trans
+  )>;
+};
+
+/ {
+  behaviors {
+    // Swap out the standard dead key for a one-shot layer to override some of the keys
+    THREE_LEVEL_KEY(apos, &EZ_SL(ODK_LAYER), S_EXCL, &EZ_SL(ODK_SHIFT_LAYER)) // ' ! (1dk)
+    TWO_LEVEL_KEY(em_dash, &odk V, &odk B) // – — (en-dash, em-dash)
+
+    DEAD_KEY(odk, O)
+    DEAD_KEY_SHIFT(odks, O)
+
+    #ifdef ENABLE_FANCY_DEAD_KEYS
+      #define SHIFT_KEY &EZ_SK(LSHIFT)
+    #else
+      #define SHIFT_KEY &EZ_SL(ODK_SHIFT_LAYER)
+    #endif
+
+    dknum: dead_key_numbers {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      tap-ms = <0>;
+      wait-ms = <0>;
+      bindings = <&kp O &osl NUM_LAYER>;
+    };
+  };
+
+  // Extra layers defined specifically for this keymap.
+  // They are appended at the end of the base keymap.
+  keymap {
+    compatible = "zmk,keymap";
+
+    one_dead_key {
+      display-name = "1dk";
+      bindings = <SELENIUM_KEYMAP_BINDINGS(
+        &trans  ,  &odk Q  &odk W  &odk E  &odk R   &kp Z   ,   &odk N  &kp Y    &odk I     &odk O   &odk P    ,  &trans ,
+        &trans  ,  &odk A  &odk S  &odk D  &odk F   &kp B   ,   &odk H  &odk J   &odk K     &odk L   &odk SEMI ,  &trans ,
+        &trans  ,  &odk Z  &odk X  &odk C  &em_dash &trans  ,   &trans  &kp FSLH &odk COMMA &odk DOT &odk FSLH ,  &trans ,
+                               SHIFT_KEY , &dknum , &trans  ,   &trans , &odk SPACE , &trans
+      )>;
+    };
+
+    shifted_one_dead_key {
+      display-name = "1dkShift";
+      bindings = <SELENIUM_KEYMAP_BINDINGS(
+        &trans  ,  &odks Q  &odks W  &odks E  &odks R  &kp LS(Z)   ,   &odks N  &kp LS(Y)    &odks I     &odks O   &odks P    ,  &trans ,
+        &trans  ,  &odks A  &odks S  &odks D  &odks F  &kp LS(B)   ,   &odks H  &odks J      &odks K     &odks L   &odks SEMI ,  &trans ,
+        &trans  ,  &odks Z  &odks X  &odks C  &odks V  &trans      ,   &trans   &kp LS(FSLH) &odks COMMA &odks DOT &odks FSLH ,  &trans ,
+                                &trans , &odks SPACE , &trans      ,   &trans , &odks SPACE , &trans
+      )>;
+    };
+
+    extra_symbols {
+      display-name = "ExtraSymbols";
+      bindings = <SELENIUM_KEYMAP_BINDINGS(
+        &trans  ,  &trans  &trans  &trans  &trans  &trans   ,   &trans  &trans  &trans  &trans  &trans  ,  &trans ,
+        &trans  ,  S_TILDE &trans  &trans  S_HASH  &trans   ,   &trans  S_PIPE  &trans  &trans  S_QMARK ,  &trans ,
+        &trans  ,  &trans  &trans  &trans  &trans  &trans   ,   &trans  &trans  &trans  &trans  &trans  ,  &trans ,
+                                 &trans , &trans , &trans   ,   &trans , &trans , &trans
+      )>;
+    };
+
+  };
+};

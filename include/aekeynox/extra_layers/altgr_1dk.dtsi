@@ -1,0 +1,34 @@
+#include "1dk.dtsi"
+
+/**
+ * This adds a dead AltGr key (1dk) for Programmers' QWERTY variants.
+**/
+
+#define SA(key) RS(RA(key))
+
+/ {
+  keymap {
+    compatible = "zmk,keymap";
+
+    one_dead_key {
+      display-name = "1dk";
+      bindings = <SELENIUM_KEYMAP_BINDINGS(
+        &trans  ,  &kp RA(Q) &kp RA(W) &kp RA(E) &kp RA(R) &kp RA(T)  ,  &kp RA(Y)  &kp RA(U)  &kp RA(I)     &kp RA(O)   &kp RA(P)     ,  &trans ,
+        &trans  ,  &kp RA(A) &kp RA(S) &kp RA(D) &kp RA(F) &kp RA(G)  ,  &kp RA(H)  &kp RA(J)  &kp RA(K)     &kp RA(L)   &kp SEMI      ,  &trans ,
+        &trans  ,  &kp RA(Z) &kp RA(X) &kp RA(C) &kp RA(V) &kp RA(B)  ,  &kp RA(N)  &kp RA(M)  &kp RA(COMMA) &kp RA(DOT) &kp RA(FSLH)  ,  &trans ,
+                                        SK_ODKS , &kp SEMI , &trans   ,  &trans , &kp SEMI , &trans
+      )>;
+    };
+
+    one_dead_key_shift {
+      display-name = "1dkShift";
+      bindings = <SELENIUM_KEYMAP_BINDINGS(
+        &trans  ,  &kp SA(Q) &kp SA(W) &kp SA(E) &kp SA(R) &kp SA(T)  ,  &kp SA(Y)  &kp SA(U)  &kp SA(I)     &kp SA(O)   &kp SA(P)     ,  &trans ,
+        &trans  ,  &kp SA(A) &kp SA(S) &kp SA(D) &kp SA(F) &kp SA(G)  ,  &kp SA(H)  &kp SA(J)  &kp SA(K)     &kp SA(L)   &kp COLON     ,  &trans ,
+        &trans  ,  &kp SA(Z) &kp SA(X) &kp SA(C) &kp SA(V) &kp SA(B)  ,  &kp SA(N)  &kp SA(M)  &kp SA(COMMA) &kp SA(DOT) &kp SA(FSLH)  ,  &trans ,
+                                        &trans , &kp COLON , &trans   ,  &trans , &kp COLON , &trans
+      )>;
+    };
+
+  };
+};

@@ -1,0 +1,188 @@
+// By default, the firmware will be built with HRM support for a QWERTY computer.
+// Uncomment definitions in this file to activate options.
+
+
+/******************************************************************************
+ * Host Computer (keyboard layout and OS)
+******************************************************************************/
+
+// Uncomment one of the following lines if the host computer is configured with
+// a non-QWERTY-ANSI keyboard layout. This is required to set an appropriate
+// 'Symbols' layer and relevant keyboard shortcuts in the 'Nav' layer.
+
+#define KB_LAYOUT_AZERTY            // France
+// #define KB_LAYOUT_BEPO              // France
+// #define KB_LAYOUT_BEPOLAR           // France
+// #define KB_LAYOUT_DVORAK            // US
+// #define KB_LAYOUT_ERGOL             // France
+// #define KB_LAYOUT_ERGLACE           // France
+// #define KB_LAYOUT_QWERTY_BR         // Brazil
+// #define KB_LAYOUT_QWERTY_DK         // Denmark
+// #define KB_LAYOUT_QWERTY_EE         // Estonia
+// #define KB_LAYOUT_QWERTY_ES         // Spain
+// #define KB_LAYOUT_QWERTY_INTL       // US (International)
+// #define KB_LAYOUT_QWERTY_IT         // Italy
+// #define KB_LAYOUT_QWERTY_LAFAYETTE  // France
+// #define KB_LAYOUT_QWERTY_LATAM      // Latin America
+// #define KB_LAYOUT_QWERTY_LV         // Latvia (Programmers)
+// #define KB_LAYOUT_QWERTY_NO         // Norway
+// #define KB_LAYOUT_QWERTY_PL         // Poland (Programmers)
+// #define KB_LAYOUT_QWERTY_PT         // Portugal
+// #define KB_LAYOUT_QWERTY_RO         // Romania (Programmers)
+// #define KB_LAYOUT_QWERTY_SE         // Sweden, Finland
+// #define KB_LAYOUT_QWERTZ_CH_DE      // Switzerland (German)
+// #define KB_LAYOUT_QWERTZ_CH_FR      // Switzerland (French)
+// #define KB_LAYOUT_QWERTZ_CZ         // Czechia
+// #define KB_LAYOUT_QWERTZ_DE         // Germany, Austria
+// #define KB_LAYOUT_QWERTZ_HR         // Bosnia, Croatia, Serbia, Slovenia
+// #define KB_LAYOUT_QWERTZ_HU         // Hungary
+// #define KB_LAYOUT_QWERTZ_SK         // Slovakia
+
+// Some keyboard layouts and shortcuts may vary between Windows / macOS / Linux.
+// Uncomment one of the following lines if the host computer doen't run Windows.
+
+// #define MACOS
+// #define LINUX
+
+
+/******************************************************************************
+ * Extra Layers
+******************************************************************************/
+
+// By default, Ækeynox fits all non-ASCII layouts on a 3×10 grid by:
+//  - replacing the the semicolon key by a one-shot layer key (1dk)
+//  - adding two layers, 1dk and 1dkShift, containing all non-ASCII characters
+// These 1dk layers are defined by default to best match the requested layout,
+// but you can override them by uncommenting one of the lines below, e.g. to
+// use them along with QWERTY-intl.
+// Alternatively, you may uncomment the last line to use the outer columns
+// for 4 extra alpha keys instead of the default Tab, Escape, Backspace, Enter.
+
+#define KB_EXTRA_LAYERS_AUTO      // default (recommended)
+// #define KB_EXTRA_LAYERS_ALTGR     // default for LV, PL, RO
+// #define KB_EXTRA_LAYERS_ALPINE    // default for CH, DE, IT
+// #define KB_EXTRA_LAYERS_IBERICAN  // default for BR, ES, LATAM, PT
+// #define KB_EXTRA_LAYERS_NORDIC    // default for DK, FI, NO, SE
+// #define KB_EXTRA_LAYERS_NONE      // no 1dk layers, use outer cols
+
+
+/******************************************************************************
+ * Layout Emulation
+******************************************************************************/
+
+// [Experimental]
+// Uncomment one of the following lines to enable layout emulation,
+// i.e. to type in another keyboard layout than the host computer's.
+//  - Keymaps for QWERTY/English will work fine, as they're just a permutation
+//    of regular QWERTY keys.
+//  - Keymaps for other languages and host layouts are trickier, and provide a
+//    partial emulation only. QWERTY-intl hosts usually give the best results.
+
+// #define KB_EMULATION_COLEMAK          // host: QWERTY
+// #define KB_EMULATION_COLEMAK_DH       // host: QWERTY
+// #define KB_EMULATION_DVORAK           // host: QWERTY
+#define KB_EMULATION_ERGOL            // host: QWERTY-intl or AZERTY
+// #define KB_EMULATION_QWERTY_LAFAYETTE // host: QWERTY-intl or AZERTY
+
+// [Experimental]
+// Uncomment the following line for an extended character support on Windows.
+// Useless on QWERTY/English keymaps or non-Windows hosts, recommended otherwise.
+// XXX This assumes NumLock is ON. It will not work otherwise.
+
+// #define ENABLE_CP1252_ALT_CODES
+
+// [Experimental]
+// Uncomment the following line for an improved dead key support.
+// This only applies to some Hummingbird keymaps and layout emulations.
+
+// #define ENABLE_FANCY_DEAD_KEYS
+
+
+/******************************************************************************
+ * Hold-Taps
+******************************************************************************/
+
+// Uncomment one of the following lines to pick your preferred hold-tap config.
+
+// #define HT_NONE
+// #define HT_THUMB_TAPS
+#define HT_HOME_ROW_MODS  // (default behavior)
+// #define HT_TWO_THUMB_KEYS
+
+// Timing is key! Keep the default value if unsure.
+// This defines how long (in ms) a hold-tap key with the "tap-preferred" flavor
+// must be held to be considered as a modifier or layer shift. These hold-taps
+// are the ones that may produce text, including the space bar and home row mods.
+// Keep this value high if you struggle with home row mods.
+
+#define TAPPING_TERM 300
+
+// This defines how quickly (in ms) you need to press and release a hold-tap
+// with the "hold-preferred" flavor for it to be considered a tap. These
+// hold-taps include the ones that don’t produce text when tapped.
+// Keep this value low if you press Enter or Escape by mistake too often.
+
+#define SHORT_TAPPING_TERM 150
+
+// When tapping then holding the same tap-hold, if the delay between the two
+// key presses is lower than `QUICK_TAP`, the tap-hold will hold the tap action
+// instead of the hold action. Again, keep the default value if unsure.
+
+#define QUICK_TAP 200
+
+// For more information on how hold-taps operate, feel free to read ZMK’s docs:
+// https://zmk.dev/docs/keymaps/behaviors/hold-tap
+
+
+/******************************************************************************
+ * Other Options
+*****************************************************************************/
+
+// Uncomment the following line to split the NavNum layer in two:
+//  - one layer for vim-style navigation (right) and GUI shortcuts (left)
+//  - one layer for a full number row + easy access to Shift+Number
+//  + Escape under the left thumb (direct access)
+// Highly recommended for Vim users, obviously. :-)
+
+#define VIM_NAVIGATION
+
+// [Experimental]
+// Uncomment the following line to enable the Callum variant of the previous
+// `VIM_NAVIGATION` option. Both options are mutually exclusive.
+
+// #define CALLUM_NAVIGATION
+
+// [Experimental]
+// Uncomment the following line to enable the "mod-hold behavior" on the left
+// hand’s navigation layer key. Enabling this means that if the Alt key is held
+// when entering the navigation layer, Alt will only be released when nav is
+// released. This enables one-handed alt-tabs, but may cause unwanted side effects.
+
+// #define ENABLE_MOD_HOLD_NAVIGATION
+
+// Uncomment the following line to enable shift as a pinky HRM.
+// Useful for combined shortcuts, but NOT MEANT to type text!
+
+// #define HRM_SHIFT
+
+// [Experimental]
+// Uncomment the following line to enable a mod-hold behavior when holding
+// a pinky key. Useful for one-handed home row mods, when the modifier and
+// keycode ar on the same key (i.e. Ctrl + D)
+
+// #define PINKY_MOD_HOLD
+
+// Uncomment the following line to swap Space and Backspace.
+// Beware: this increases the typing load of the left thumb.
+
+// #define LEFT_HAND_SPACE
+
+// [Experimental]
+// Uncomment the following line to enable a hummingbird-style adaptation of
+// your keyboard layout. Keys that are originally on the ZBN/ QWERTY-positions
+// will be duplicated on a 1dk layer. This reduces the number of keys required to
+// write texts, and thus limits finger movement (at the cost of a couple of extra
+// keystrokes). The adaptations are layout-specific; as of today, only Ergol is
+// supported.
+
+// #define ENABLE_HUMMINGBIRD_MODE

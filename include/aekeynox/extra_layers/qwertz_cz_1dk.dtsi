@@ -1,0 +1,48 @@
+#include "1dk.dtsi"
+
+/**
+ * This adds a dead key (1dk) to access all common Czech chars:
+ *  - 1dk is a dead acute accent on vowels (á, é, í, ó, ú, ý)
+ *  - 1dk is a dead caron/háček on consonants (č, ď, ň, ř, š, ť, ž)
+ *  - 1dk is a dead ring below U (ů)
+ *  - exception: ě (caron/háček) left to E
+**/
+
+/ {
+  keymap {
+    compatible = "zmk,keymap";
+
+    //  |---------------|---------------|
+    //  |    € ě é ř ť  |  ž ú í ó      |
+    //  |    á š ď      |    ů     ˝    |
+    //  |    ý ß č      |  ň            |
+    //  |---------------|---------------|
+
+    one_dead_key {
+      display-name = "1dk";
+      bindings = <SELENIUM_KEYMAP_BINDINGS(
+        &trans  ,  C_EURO  C_ECAR  C_EACU  C_RCAR  C_TCAR   ,   C_ZCAR  C_UACU  C_IACU  C_OACU  &none   ,  &trans ,
+        &trans  ,  C_AACU  C_SCAR  C_DCAR  &none   &none    ,   &none   C_URNG  &none   &none   DK_DIA  ,  &trans ,
+        K_ODKS  ,  C_YACU  C_SZ    C_CCAR  &none   &none    ,   C_NCAR  &none   &none   &none   &none   ,  K_ODKS ,
+                                 SK_ODKS , S_SQT , &trans   ,   &trans , S_SQT , &trans
+      )>;
+    };
+
+    //  |---------------|---------------|
+    //  |      Ě É Ř Ť  |  Ž Ú Í Ó      |
+    //  |    Á Š Ď      |    Ů     ˝    |
+    //  |    Ý § Č      |  Ň            |
+    //  |---------------|---------------|
+
+    one_dead_key_shift {
+      display-name = "1dkShift";
+      bindings = <SELENIUM_KEYMAP_BINDINGS(
+        &trans  ,  &none   SC_ECAR SC_EACU SC_RCAR SC_TCAR  ,   SC_ZCAR SC_UACU SC_IACU SC_OACU &none   ,  &trans ,
+        &trans  ,  SC_AACU SC_SCAR SC_DCAR &none   &none    ,   &none   SC_URNG &none   &none   DK_DIA  ,  &trans ,
+        &trans  ,  SC_YACU C_SILC  SC_CCAR &none   &none    ,   SC_NCAR &none   &none   &none   &none   ,  &trans ,
+                                 &trans , &trans , &trans   ,   &trans , &trans , &trans
+      )>;
+    };
+
+  };
+};

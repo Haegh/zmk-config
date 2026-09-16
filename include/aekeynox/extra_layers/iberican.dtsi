@@ -1,0 +1,60 @@
+#include "1dk.dtsi"
+
+/**
+ * This adds a dead key (1dk) to access all common chars for Spain, Portugal and LatAm.
+ *
+ * Activated by default on:
+ *  - QWERTY-br,    used in Brazil
+ *  - QWERTY-latam, used in Latin America
+ *  - QWERTY-es,    used in Spain
+ *  - QWERTY-pt,    used in Portugal
+ *
+ * Language-specific chars (specific diacritics beside `ñ`, `ç` and `áéíóú`):
+ * - Portuguese: `à`, `ã`, `õ`, `^` (+ `ü`, deprecated)
+ * - Catalan:    `è`, `ò`, `ï`, `·`
+ * - Aranese:    `à`, `è`, `ò`
+ * - Galician:   none?
+ * - Basque:     none
+ *
+ * Unsupported chars:
+ *  - Catalan: `ŀ`, lnot in CP1252, using the middle dot instead (`l·l`)
+**/
+
+/ {
+  keymap {
+    compatible = "zmk,keymap";
+
+    //  |---------------|---------------|
+    //  |    ª º é € ¢  |    ú í ó      |
+    //  |    à § è ( )  |  · ü ï ò ^    |
+    //  |    ã õ ç ? !  |  ñ µ     ¬    |
+    //  |---------------|---------------|
+
+    one_dead_key {
+      display-name = "1dk";
+      bindings = <SELENIUM_KEYMAP_BINDINGS(
+        &trans  ,  C_FEM   C_MASC  C_EACU  C_EURO  C_CENT   ,   &trans  C_UACU  C_IACU  C_OACU  &trans  ,  &trans ,
+        &trans  ,  C_AGRV  C_SILC  C_EGRV  S_LPAR  S_RPAR   ,   C_MDOT  C_UDIA  C_IDIA  C_OGRV  DK_CIR  ,  &trans ,
+        K_ODKS  ,  C_ATLD  C_OTLD  C_CCDL  S_QMARK S_EXCL   ,   C_NTLD  C_MICRO &trans  &trans  C_NOT   ,  K_ODKS ,
+                                 SK_ODKS , S_SQT , &trans   ,   &trans , S_SQT , &trans
+      )>;
+    };
+
+    //  |---------------|---------------|
+    //  |        É £    |    Ú Í Ó      |
+    //  |    À   È « »  |    Ü Ï Ò      |
+    //  |    Ã Õ Ç ¿ ¡  |  Ñ            |
+    //  |---------------|---------------|
+
+    one_dead_key_shift {
+      display-name = "1dkShift";
+      bindings = <SELENIUM_KEYMAP_BINDINGS(
+        &trans  ,  &trans  &trans  SC_EACU C_POUND &trans   ,   &trans  SC_UACU SC_IACU SC_OACU &trans  ,  &trans ,
+        &trans  ,  SC_AGRV &trans  SC_EGRV C_LGQT  C_RGQT   ,   &trans  SC_UDIA SC_IDIA SC_OGRV &trans  ,  &trans ,
+        &trans  ,  SC_ATLD SC_OTLD SC_CCDL C_KRAMQ C_LCXE   ,   SC_NTLD &trans  &trans  &trans  &trans  ,  &trans ,
+                                 &trans , &trans , &trans   ,   &trans , &trans , &trans
+      )>;
+    };
+
+  };
+};
