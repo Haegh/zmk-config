@@ -36,11 +36,9 @@ include:
 
   - board: piantor_pro_bt_left//zmk
     snippet: studio-rpc-usb-uart
-    shield: sharp_mip
     cmake-args: -DCONFIG_ZMK_STUDIO=y
     artifact-name: piantor_pro_bt_left
   - board: piantor_pro_bt_right//zmk
-    shield: sharp_mip
     snippet: studio-rpc-usb-uart
     artifact-name: piantor_pro_bt_right
 
