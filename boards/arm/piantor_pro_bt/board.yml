@@ -1,0 +1,13 @@
+boards:
+  - name: piantor_pro_bt_left
+    vendor: beekeeb
+    socs:
+      - name: nrf52840
+        variants:
+          - name: zmk
+  - name: piantor_pro_bt_right
+    vendor: beekeeb
+    socs:
+      - name: nrf52840
+        variants:
+          - name: zmk
