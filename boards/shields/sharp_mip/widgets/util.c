@@ -8,43 +8,73 @@
 #include <zephyr/kernel.h>
 #include "util.h"
 
-LV_IMG_DECLARE(bolt);
+LV_IMAGE_DECLARE(bolt);
 
-void rotate_canvas(lv_obj_t *canvas, lv_color_t cbuf[]) {
+void rotate_canvas(lv_layer_t *layer, lv_color_t cbuf[]) {
     static lv_color_t cbuf_tmp[CANVAS_SIZE * CANVAS_SIZE];
     memcpy(cbuf_tmp, cbuf, sizeof(cbuf_tmp));
-    lv_img_dsc_t img;
-    img.data = (void *)cbuf_tmp;
-    img.header.cf = LV_IMG_CF_TRUE_COLOR;
-    img.header.w = CANVAS_SIZE;
-    img.header.h = CANVAS_SIZE;
 
-    lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
+    lv_image_dsc_t img = {
+        .header.magic = LV_IMAGE_HEADER_MAGIC,
+        .header.cf = LV_COLOR_FORMAT_NATIVE,
+        .header.flags = 0,
+        .header.w = CANVAS_SIZE,
+        .header.h = CANVAS_SIZE,
+        .header.stride = CANVAS_SIZE * sizeof(lv_color_t),
+        .data_size = sizeof(cbuf_tmp),
+        .data = (const uint8_t *)cbuf_tmp,
+        .reserved = NULL,
+    };
+
+    lv_draw_image_dsc_t dsc;
+    lv_draw_image_dsc_init(&dsc);
+    dsc.src = &img;
 #ifdef CONFIG_SHARP_MIP_ROTATE_180
-    lv_canvas_transform(canvas, &img, -900, LV_IMG_ZOOM_NONE, -1, 0, CANVAS_SIZE / 2,
-                        CANVAS_SIZE / 2 - 1, true);
+    dsc.rotation = -900;
+    dsc.pivot.x = CANVAS_SIZE / 2;
+    dsc.pivot.y = CANVAS_SIZE / 2 - 1;
 #else
-    lv_canvas_transform(canvas, &img, 900, LV_IMG_ZOOM_NONE, -1, 0, CANVAS_SIZE / 2,
-                        CANVAS_SIZE / 2, true);
+    dsc.rotation = 900;
+    dsc.pivot.x = CANVAS_SIZE / 2;
+    dsc.pivot.y = CANVAS_SIZE / 2;
 #endif
+    dsc.scale_x = LV_SCALE_NONE;
+    dsc.scale_y = LV_SCALE_NONE;
+    dsc.opa = LV_OPA_COVER;
+    dsc.antialias = 1;
+
+    lv_area_t coords;
+    lv_area_set(&coords, 0, 0, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
+    lv_draw_image(layer, &dsc, &coords);
 }
 
-void draw_battery(lv_obj_t *canvas, const struct status_state *state) {
+void draw_battery(lv_layer_t *layer, const struct status_state *state) {
     lv_draw_rect_dsc_t rect_black_dsc;
     init_rect_dsc(&rect_black_dsc, LVGL_BACKGROUND);
     lv_draw_rect_dsc_t rect_white_dsc;
     init_rect_dsc(&rect_white_dsc, LVGL_FOREGROUND);
 
-    lv_canvas_draw_rect(canvas, 0, 2, 29, 12, &rect_white_dsc);
-    lv_canvas_draw_rect(canvas, 1, 3, 27, 10, &rect_black_dsc);
-    lv_canvas_draw_rect(canvas, 2, 4, (state->battery + 2) / 4, 8, &rect_white_dsc);
-    lv_canvas_draw_rect(canvas, 30, 5, 3, 6, &rect_white_dsc);
-    lv_canvas_draw_rect(canvas, 31, 6, 1, 4, &rect_black_dsc);
+    lv_area_t coords;
+    lv_area_set(&coords, 0, 2, 28, 13);
+    lv_draw_rect(layer, &rect_white_dsc, &coords);
+    lv_area_set(&coords, 1, 3, 27, 12);
+    lv_draw_rect(layer, &rect_black_dsc, &coords);
+    if (((state->battery + 2) / 4) > 0) {
+        lv_area_set(&coords, 2, 4, 1 + (state->battery + 2) / 4, 11);
+        lv_draw_rect(layer, &rect_white_dsc, &coords);
+    }
+    lv_area_set(&coords, 30, 5, 32, 10);
+    lv_draw_rect(layer, &rect_white_dsc, &coords);
+    lv_area_set(&coords, 31, 6, 31, 9);
+    lv_draw_rect(layer, &rect_black_dsc, &coords);
 
     if (state->charging) {
-        lv_draw_img_dsc_t img_dsc;
-        lv_draw_img_dsc_init(&img_dsc);
-        lv_canvas_draw_img(canvas, 9, -1, &bolt, &img_dsc);
+        lv_draw_image_dsc_t img_dsc;
+        lv_draw_image_dsc_init(&img_dsc);
+        img_dsc.src = &bolt;
+        img_dsc.opa = LV_OPA_COVER;
+        lv_area_set(&coords, 9, -1, 19, 16);
+        lv_draw_image(layer, &img_dsc, &coords);
     }
 }
 

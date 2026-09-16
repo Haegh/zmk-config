@@ -59,15 +59,24 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
     init_line_dsc(&line_dsc, LVGL_FOREGROUND, 1);
 
     // Fill background
-    lv_canvas_draw_rect(canvas, 0, 0, CANVAS_SIZE, CANVAS_SIZE, &rect_black_dsc);
+    lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
+
+    lv_layer_t layer;
+    lv_canvas_init_layer(canvas, &layer);
+
+    lv_area_t coords;
+    lv_area_set(&coords, 0, 0, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
+    lv_draw_rect(&layer, &rect_black_dsc, &coords);
 
     // Draw battery
-    draw_battery(canvas, state);
+    draw_battery(&layer, state);
 
     // Draw output status
     char output_text[10] = {};
 
     switch (state->selected_endpoint.transport) {
+    case ZMK_TRANSPORT_NONE:
+        break;
     case ZMK_TRANSPORT_USB:
         strcat(output_text, LV_SYMBOL_USB);
         break;
@@ -84,15 +93,19 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
         break;
     }
 
-    lv_canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, output_text);
+    lv_area_set(&coords, 0, 0, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
+    lv_draw_label(&layer, &label_dsc, &coords, output_text);
 
     // Draw WPM
-    lv_canvas_draw_rect(canvas, 0, 21, 68, 42, &rect_white_dsc);
-    lv_canvas_draw_rect(canvas, 1, 22, 66, 40, &rect_black_dsc);
+    lv_area_set(&coords, 0, 21, 67, 62);
+    lv_draw_rect(&layer, &rect_white_dsc, &coords);
+    lv_area_set(&coords, 1, 22, 66, 61);
+    lv_draw_rect(&layer, &rect_black_dsc, &coords);
 
     char wpm_text[6] = {};
     snprintf(wpm_text, sizeof(wpm_text), "%d", state->wpm[9]);
-    lv_canvas_draw_text(canvas, 42, 52, 24, &label_dsc_wpm, wpm_text);
+    lv_area_set(&coords, 42, 52, 65, CANVAS_SIZE - 1);
+    lv_draw_label(&layer, &label_dsc_wpm, &coords, wpm_text);
 
     int max = 0;
     int min = 256;
@@ -116,10 +129,17 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
         points[i].x = 2 + i * 7;
         points[i].y = 60 - (state->wpm[i] - min) * 36 / range;
     }
-    lv_canvas_draw_line(canvas, points, 10, &line_dsc);
+    for (int i = 0; i < 9; i++) {
+        line_dsc.p1.x = points[i].x;
+        line_dsc.p1.y = points[i].y;
+        line_dsc.p2.x = points[i + 1].x;
+        line_dsc.p2.y = points[i + 1].y;
+        lv_draw_line(&layer, &line_dsc);
+    }
 
     // Rotate canvas
-    rotate_canvas(canvas, cbuf);
+    rotate_canvas(&layer, cbuf);
+    lv_canvas_finish_layer(canvas, &layer);
 }
 
 static void draw_middle(lv_obj_t *widget, lv_color_t cbuf[], const struct status_state *state) {
@@ -139,7 +159,14 @@ static void draw_middle(lv_obj_t *widget, lv_color_t cbuf[], const struct status
     init_label_dsc(&label_dsc_black, LVGL_BACKGROUND, &lv_font_montserrat_18, LV_TEXT_ALIGN_CENTER);
 
     // Fill background
-    lv_canvas_draw_rect(canvas, 0, 0, CANVAS_SIZE, CANVAS_SIZE, &rect_black_dsc);
+    lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
+
+    lv_layer_t layer;
+    lv_canvas_init_layer(canvas, &layer);
+
+    lv_area_t coords;
+    lv_area_set(&coords, 0, 0, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
+    lv_draw_rect(&layer, &rect_black_dsc, &coords);
 
     // Draw circles
     int circle_offsets[5][2] = {
@@ -149,22 +176,32 @@ static void draw_middle(lv_obj_t *widget, lv_color_t cbuf[], const struct status
     for (int i = 0; i < 5; i++) {
         bool selected = i == state->active_profile_index;
 
-        lv_canvas_draw_arc(canvas, circle_offsets[i][0], circle_offsets[i][1], 13, 0, 360,
-                           &arc_dsc);
+        arc_dsc.center.x = circle_offsets[i][0];
+        arc_dsc.center.y = circle_offsets[i][1];
+        arc_dsc.radius = 13;
+        arc_dsc.start_angle = 0;
+        arc_dsc.end_angle = 360;
+        lv_draw_arc(&layer, &arc_dsc);
 
         if (selected) {
-            lv_canvas_draw_arc(canvas, circle_offsets[i][0], circle_offsets[i][1], 9, 0, 359,
-                               &arc_dsc_filled);
+            arc_dsc_filled.center.x = circle_offsets[i][0];
+            arc_dsc_filled.center.y = circle_offsets[i][1];
+            arc_dsc_filled.radius = 9;
+            arc_dsc_filled.start_angle = 0;
+            arc_dsc_filled.end_angle = 359;
+            lv_draw_arc(&layer, &arc_dsc_filled);
         }
 
         char label[2];
         snprintf(label, sizeof(label), "%d", i + 1);
-        lv_canvas_draw_text(canvas, circle_offsets[i][0] - 8, circle_offsets[i][1] - 10, 16,
-                            (selected ? &label_dsc_black : &label_dsc), label);
+        lv_area_set(&coords, circle_offsets[i][0] - 8, circle_offsets[i][1] - 10,
+                    circle_offsets[i][0] + 7, CANVAS_SIZE - 1);
+        lv_draw_label(&layer, (selected ? &label_dsc_black : &label_dsc), &coords, label);
     }
 
     // Rotate canvas
-    rotate_canvas(canvas, cbuf);
+    rotate_canvas(&layer, cbuf);
+    lv_canvas_finish_layer(canvas, &layer);
 }
 
 static void draw_bottom(lv_obj_t *widget, lv_color_t cbuf[], const struct status_state *state) {
@@ -176,7 +213,14 @@ static void draw_bottom(lv_obj_t *widget, lv_color_t cbuf[], const struct status
     init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_14, LV_TEXT_ALIGN_CENTER);
 
     // Fill background
-    lv_canvas_draw_rect(canvas, 0, 0, CANVAS_SIZE, CANVAS_SIZE, &rect_black_dsc);
+    lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
+
+    lv_layer_t layer;
+    lv_canvas_init_layer(canvas, &layer);
+
+    lv_area_t coords;
+    lv_area_set(&coords, 0, 0, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
+    lv_draw_rect(&layer, &rect_black_dsc, &coords);
 
     // Draw layer
     if (state->layer_label == NULL || strlen(state->layer_label) == 0) {
@@ -184,13 +228,16 @@ static void draw_bottom(lv_obj_t *widget, lv_color_t cbuf[], const struct status
 
         sprintf(text, "LAYER %i", state->layer_index);
 
-        lv_canvas_draw_text(canvas, 0, 5, 68, &label_dsc, text);
+        lv_area_set(&coords, 0, 5, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
+        lv_draw_label(&layer, &label_dsc, &coords, text);
     } else {
-        lv_canvas_draw_text(canvas, 0, 5, 68, &label_dsc, state->layer_label);
+        lv_area_set(&coords, 0, 5, CANVAS_SIZE - 1, CANVAS_SIZE - 1);
+        lv_draw_label(&layer, &label_dsc, &coords, state->layer_label);
     }
 
     // Rotate canvas
-    rotate_canvas(canvas, cbuf);
+    rotate_canvas(&layer, cbuf);
+    lv_canvas_finish_layer(canvas, &layer);
 }
 
 static void set_battery_status(struct zmk_widget_status *widget,
@@ -246,7 +293,7 @@ static void output_status_update_cb(struct output_status_state state) {
 
 static struct output_status_state output_status_get_state(const zmk_event_t *_eh) {
     return (struct output_status_state){
-        .selected_endpoint = zmk_endpoints_selected(),
+        .selected_endpoint = zmk_endpoint_get_selected(),
         .active_profile_index = zmk_ble_active_profile_index(),
         .active_profile_connected = zmk_ble_active_profile_is_connected(),
         .active_profile_bonded = !zmk_ble_active_profile_is_open(),
@@ -324,13 +371,13 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     lv_obj_set_size(widget->obj, 160, 68);
     lv_obj_t *top = lv_canvas_create(widget->obj);
     lv_obj_align(top, LV_ALIGN_TOP_LEFT, top_pos, 0);
-    lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, LV_IMG_CF_TRUE_COLOR);
+    lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, LV_COLOR_FORMAT_NATIVE);
     lv_obj_t *middle = lv_canvas_create(widget->obj);
     lv_obj_align(middle, LV_ALIGN_TOP_LEFT, middle_pos, 0);
-    lv_canvas_set_buffer(middle, widget->cbuf2, CANVAS_SIZE, CANVAS_SIZE, LV_IMG_CF_TRUE_COLOR);
+    lv_canvas_set_buffer(middle, widget->cbuf2, CANVAS_SIZE, CANVAS_SIZE, LV_COLOR_FORMAT_NATIVE);
     lv_obj_t *bottom = lv_canvas_create(widget->obj);
     lv_obj_align(bottom, LV_ALIGN_TOP_LEFT, bottom_pos, 0);
-    lv_canvas_set_buffer(bottom, widget->cbuf3, CANVAS_SIZE, CANVAS_SIZE, LV_IMG_CF_TRUE_COLOR);
+    lv_canvas_set_buffer(bottom, widget->cbuf3, CANVAS_SIZE, CANVAS_SIZE, LV_COLOR_FORMAT_NATIVE);
 
     sys_slist_append(&widgets, &widget->node);
     widget_battery_status_init();
