@@ -58,6 +58,13 @@ include:
     cmake-args: -DCONFIG_SHARP_MIP_WIDGET_NO_EVENTS=y
     artifact-name: piantor_pro_bt_left_noevents
 
+  # DIAGNOSTIC (v): full widgets, large display thread stack (tests stack overflow)
+  - board: piantor_pro_bt_left//zmk
+    shield: sharp_mip
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_DISPLAY_DEDICATED_THREAD_STACK_SIZE=8192
+    artifact-name: piantor_pro_bt_left_bigstack
+
   - board: piantor_pro_bt_left//zmk
     shield: settings_reset
     snippet: studio-rpc-usb-uart
