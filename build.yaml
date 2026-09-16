@@ -44,6 +44,20 @@ include:
     snippet: studio-rpc-usb-uart
     artifact-name: piantor_pro_bt_right
 
+  # DIAGNOSTIC (iii): no canvas objects, listeners active (bisects canvas vs events)
+  - board: piantor_pro_bt_left//zmk
+    shield: sharp_mip
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_SHARP_MIP_WIDGET_NO_CANVAS=y
+    artifact-name: piantor_pro_bt_left_nocanvas
+
+  # DIAGNOSTIC (iv): canvases present, no event listeners (bisects events vs canvas)
+  - board: piantor_pro_bt_left//zmk
+    shield: sharp_mip
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_SHARP_MIP_WIDGET_NO_EVENTS=y
+    artifact-name: piantor_pro_bt_left_noevents
+
   - board: piantor_pro_bt_left//zmk
     shield: settings_reset
     snippet: studio-rpc-usb-uart

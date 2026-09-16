@@ -47,6 +47,12 @@ struct wpm_status_state {
 static void draw_top(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);
 
+#if defined(CONFIG_SHARP_MIP_WIDGET_NO_DRAW) || defined(CONFIG_SHARP_MIP_WIDGET_NO_CANVAS)
+    (void)canvas;
+    (void)state;
+    return;
+#endif
+
     lv_draw_label_dsc_t label_dsc;
     init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_16, LV_TEXT_ALIGN_RIGHT);
     lv_draw_label_dsc_t label_dsc_wpm;
@@ -127,6 +133,12 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state) {
 static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 1);
 
+#if defined(CONFIG_SHARP_MIP_WIDGET_NO_DRAW) || defined(CONFIG_SHARP_MIP_WIDGET_NO_CANVAS)
+    (void)canvas;
+    (void)state;
+    return;
+#endif
+
     lv_draw_rect_dsc_t rect_black_dsc;
     init_rect_dsc(&rect_black_dsc, LVGL_BACKGROUND);
     lv_draw_label_dsc_t label_dsc;
@@ -170,6 +182,12 @@ static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
 
 static void draw_bottom(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 2);
+
+#if defined(CONFIG_SHARP_MIP_WIDGET_NO_DRAW) || defined(CONFIG_SHARP_MIP_WIDGET_NO_CANVAS)
+    (void)canvas;
+    (void)state;
+    return;
+#endif
 
     lv_draw_rect_dsc_t rect_black_dsc;
     init_rect_dsc(&rect_black_dsc, LVGL_BACKGROUND);
@@ -325,6 +343,7 @@ int bottom_pos = -44;
 int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     widget->obj = lv_obj_create(parent);
     lv_obj_set_size(widget->obj, 160, 68);
+#if !defined(CONFIG_SHARP_MIP_WIDGET_NO_CANVAS)
     lv_obj_t *top = lv_canvas_create(widget->obj);
     lv_obj_align(top, LV_ALIGN_TOP_LEFT, top_pos, 0);
     lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
@@ -334,12 +353,15 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     lv_obj_t *bottom = lv_canvas_create(widget->obj);
     lv_obj_align(bottom, LV_ALIGN_TOP_LEFT, bottom_pos, 0);
     lv_canvas_set_buffer(bottom, widget->cbuf3, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+#endif
 
     sys_slist_append(&widgets, &widget->node);
+#if !defined(CONFIG_SHARP_MIP_WIDGET_NO_EVENTS)
     widget_battery_status_init();
     widget_output_status_init();
     widget_layer_status_init();
     widget_wpm_status_init();
+#endif
 
     return 0;
 }
