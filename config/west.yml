@@ -1,13 +1,85 @@
+# For security and stability reasons, every external dependency must be pinned.
+# This ensures maintainers are in control and are able to review changes before
+# applying them here.
+#
+# - For repos maintained by OneDeadKey or their members, we use an `aekeynox`
+#   branch as a stable release for the dependency.
+# - For any other repo, we pin the exact commit hash we need. Feel free to
+#   open a PR to update this hash if improvements are made.
+
 manifest:
+
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    # Additional modules containing boards/shields/custom code can be listed here as well
-    # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
+    - name: cfergeau
+      url-base: https://github.com/cfergeau
+    - name: NuclearSquid
+      url-base: https://github.com/Nuclear-Squid
+    - name: rloutier
+      url-base: https://github.com/rloutier
+    - name: rschenk
+      url-base: https://github.com/rschenk
+
   projects:
+      # We rely on a fork of ZMK for a couple of reasons:
+      # 1. to pin the version of ZMK, so we’re not caught off guard by breaking changes
+      # 2. to add some more advanced features that aren’t present upstream
+      #    (unmerged PRs, custom patches…)
+      # More info on the changes present can be found on the fork’s README page.
     - name: zmk
-      remote: zmkfirmware
-      revision: v0.3
+      remote: NuclearSquid
+      revision: aekeynox
       import: app/west.yml
+
+      ###
+      # Custom behaviors
+      ##
+
+      # Safely wraps a dead key on the host layout
+    - name: zmk-behavior-dead-key
+      remote: NuclearSquid
+      revision: aekeynox
+
+      # Wraps a behavior to hold a selection of active modifiers for as long
+      # as that key is held
+    - name: zmk-behavior-mod-hold
+      remote: NuclearSquid
+      revision: aekeynox
+
+      ###
+      # Community keyboards (not officially supported by ZMK)
+      ##
+
+      # Quacken Flex: unibody rp2040-based board
+      # Quacken Zero: unibody ProMicro-compatible shield
+    - name: zmk-keyboard-quacken
+      remote: NuclearSquid
+      revision: aekeynox
+
+      # Totem: split XIAO-compatible shield
+      # A fork of `GEIGEIGEIST`'s ZMK Totem module, to migrate it to ZMK main
+    - name: zmk-config-totem
+      remote: cfergeau
+      revision: 9677c2fd5af7cee784aafb1b52a25a33357336c2
+
+      # Temper/Chocofi: split ProMicro-compatible shield
+      # A fork of `raeedcho`'s ZMK Temper module including long-standing patch proposals.
+      # https://github.com/OneDeadKey/zmk-config-aekeynox/pull/101
+    - name: temper-zmk-config
+      remote: NuclearSquid
+      revision: aekeynox
+
+      # Go60: split nrf52840-based board
+      # A fork of MoErgo's ZMK go60 module, to migrate it to ZMK main
+    - name: zmk-config-go60
+      remote: rloutier
+      revision: 1bb1f847162f5ccec162c5ba6516d0c73b6a8c39
+
+      # Re-gret: unibody XIAO-compatible shield, 34 keys
+    - name: zmk-keyboard-re-gret
+      remote: rschenk
+      revision: 34ca1fc7dc6991475b0c20f2c8361598e7aaeaca
+
   self:
     path: config
