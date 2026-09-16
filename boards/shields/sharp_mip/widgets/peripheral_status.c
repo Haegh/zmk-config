@@ -35,12 +35,6 @@ struct peripheral_status_state {
 static void draw_top(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);
 
-#if defined(CONFIG_SHARP_MIP_WIDGET_NO_DRAW) || defined(CONFIG_SHARP_MIP_WIDGET_NO_CANVAS)
-    (void)canvas;
-    (void)state;
-    return;
-#endif
-
     lv_draw_label_dsc_t label_dsc;
     init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_16, LV_TEXT_ALIGN_RIGHT);
     lv_draw_rect_dsc_t rect_black_dsc;
@@ -126,11 +120,9 @@ int top_pos = 92;
 int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     widget->obj = lv_obj_create(parent);
     lv_obj_set_size(widget->obj, 160, 68);
-#if !defined(CONFIG_SHARP_MIP_WIDGET_NO_CANVAS)
     lv_obj_t *top = lv_canvas_create(widget->obj);
     lv_obj_align(top, LV_ALIGN_TOP_LEFT, top_pos, 0);
     lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
-#endif
 
     lv_obj_t *art = lv_image_create(widget->obj);
     bool random = sys_rand32_get() & 1;
@@ -138,10 +130,8 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     lv_obj_align(art, LV_ALIGN_TOP_LEFT, art_pos, 0);
 
     sys_slist_append(&widgets, &widget->node);
-#if !defined(CONFIG_SHARP_MIP_WIDGET_NO_EVENTS)
     widget_battery_status_init();
     widget_peripheral_status_init();
-#endif
 
     return 0;
 }

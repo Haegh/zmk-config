@@ -27,6 +27,9 @@ endchoice
 config LV_Z_MEM_POOL_SIZE
     default 16384 if ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
 
+config ZMK_DISPLAY_DEDICATED_THREAD_STACK_SIZE
+    default 8192
+
 config ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
     imply SHARP_MIP_WIDGET_STATUS
 
@@ -41,15 +44,6 @@ config SHARP_MIP_WIDGET_INVERTED
 
 config SHARP_MIP_ROTATE_180
     bool "Rotate Sharp MIP display 180 degrees"
-
-config SHARP_MIP_WIDGET_NO_DRAW
-    bool "Skip widget drawing, init only (diagnostic)"
-
-config SHARP_MIP_WIDGET_NO_CANVAS
-    bool "Skip canvas creation (diagnostic)"
-
-config SHARP_MIP_WIDGET_NO_EVENTS
-    bool "Skip event listener init (diagnostic)"
 
 if !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
 
