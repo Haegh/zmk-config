@@ -5,6 +5,7 @@
 #include <behaviors.dtsi>         // standard behaviors defined by ZMK
 #include <dt-bindings/zmk/keys.h> // human-readable keycodes and modifiers
 #include <dt-bindings/zmk/bt.h>   // bluetooth behaviors (see fn/media layer)
+#include <dt-bindings/zmk/rgb.h>
 
 // Community module headers
 #include <behaviors/mod-hold.dtsi> // Provides helper macros for the mod-hold behavior
@@ -134,9 +135,9 @@
     fn_media_layer: fn_media_layer {
       display-name = "FnMedia";
       bindings = <SELENIUM_KEYMAP_BINDINGS(
-        &trans  ,  &kp F1  &kp F2  &kp F3  &kp F4  &none   ,   &bt BT_SEL 2  &kp C_NEXT  &kp C_VOL_UP  &kp C_BRI_UP   &kp SLCK    ,  &trans ,
-        &trans  ,  &kp F5  &kp F6  &kp F7  &kp F8  &none   ,   &bt_sel1_clr  &UH1 C_PP   &UH2 C_MUTE   &UH3 C_AL_LOCK &UH4 PSCRN  ,  &trans ,
-        &trans  ,  &kp F9  &kp F10 &kp F11 &kp F12 &none   ,   &bt BT_SEL 0  &kp C_PREV  &kp C_VOL_DN  &kp C_BRI_DN   &kp INS     ,  &trans ,
+        &rgb_ug RGB_HUD  ,  &kp F1  &kp F2  &kp F3  &kp F4  &none   ,   &bt BT_SEL 0  &kp C_NEXT  &kp C_VOL_UP  &kp C_BRI_UP   &kp SLCK    ,  &bt BT_SEL 3 ,
+        &rgb_ug RGB_HUI  ,  &kp F5  &kp F6  &kp F7  &kp F8  &none   ,   &bt BT_SEL 1  &UH1 C_PP   &UH2 C_MUTE   &UH3 C_AL_LOCK &UH4 PSCRN  ,  &bt BT_SEL 4 ,
+        &rgb_ug RGB_TOG  ,  &kp F9  &kp F10 &kp F11 &kp F12 &none   ,   &bt BT_SEL 2  &kp C_PREV  &kp C_VOL_DN  &kp C_BRI_DN   &kp INS     ,  &bt_sel1_clr ,
                            &trans , &bootloader , &trans   ,   &trans , &sys_reset , &studio_unlock
       )>;
     };
