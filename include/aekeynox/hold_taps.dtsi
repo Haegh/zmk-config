@@ -350,7 +350,7 @@
     OMIT_IF_NO_REF shift_left: shift_left {
       compatible = "zmk,behavior-mod-morph";
       #binding-cells = <0>;
-      bindings = <&kp LS(LEFT)>, <&kp LS(LEFT)>;
+      bindings = <&kp LS(H)>, <&kp LS(LEFT)>;
       mods      = <(MOD_LALT|MOD_LGUI)>;
       keep-mods = <(MOD_LALT|MOD_LGUI)>;
     };
@@ -358,7 +358,7 @@
     OMIT_IF_NO_REF shift_right: shift_right {
       compatible = "zmk,behavior-mod-morph";
       #binding-cells = <0>;
-      bindings = <&kp LS(RIGHT)>, <&kp LS(RIGHT)>;
+      bindings = <&kp LS(L)>, <&kp LS(RIGHT)>;
       mods      = <(MOD_LALT|MOD_LGUI)>;
       keep-mods = <(MOD_LALT|MOD_LGUI)>;
     };
