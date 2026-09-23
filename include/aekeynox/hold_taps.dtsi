@@ -331,6 +331,38 @@
       keep-mods = <(MOD_LALT|MOD_LGUI)>;
     };
 
+    OMIT_IF_NO_REF ctrl_left: ctrl_left {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp LC(LEFT)>, <&kp LC(LEFT)>;
+      mods      = <(MOD_LALT|MOD_LGUI)>;
+      keep-mods = <(MOD_LALT|MOD_LGUI)>;
+    };
+
+    OMIT_IF_NO_REF ctrl_right: ctrl_right {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp LC(RIGHT)>, <&kp LC(RIGHT)>;
+      mods      = <(MOD_LALT|MOD_LGUI)>;
+      keep-mods = <(MOD_LALT|MOD_LGUI)>;
+    };
+
+    OMIT_IF_NO_REF shift_left: shift_left {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp LS(LEFT)>, <&kp LS(LEFT)>;
+      mods      = <(MOD_LALT|MOD_LGUI)>;
+      keep-mods = <(MOD_LALT|MOD_LGUI)>;
+    };
+
+    OMIT_IF_NO_REF shift_right: shift_right {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp LS(RIGHT)>, <&kp LS(RIGHT)>;
+      mods      = <(MOD_LALT|MOD_LGUI)>;
+      keep-mods = <(MOD_LALT|MOD_LGUI)>;
+    };
+
     MOD_HOLD_0(mh, &none, MOD_LCTL|MOD_RCTL|MOD_LALT|MOD_RALT|MOD_LGUI|MOD_RGUI)
     MOD_HOLD_2(mhsc, &sc, MOD_LALT)
     MOD_HOLD_2(mhhrm, &hrm, MOD_LCTL|MOD_RCTL|MOD_LALT|MOD_RALT|MOD_LGUI|MOD_RGUI)
