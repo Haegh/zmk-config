@@ -318,7 +318,7 @@
     OMIT_IF_NO_REF vim_prev: vim_prev {
       compatible = "zmk,behavior-mod-morph";
       #binding-cells = <0>;
-      bindings = <&kp LA(LEFT)>, <&kp LS(GRAVE)>;
+      bindings = <&kp LA(H)>, <&kp LS(GRAVE)>;
       mods      = <(MOD_LALT|MOD_LGUI)>;
       keep-mods = <(MOD_LALT|MOD_LGUI)>;
     };
@@ -326,7 +326,7 @@
     OMIT_IF_NO_REF vim_next: vim_next {
       compatible = "zmk,behavior-mod-morph";
       #binding-cells = <0>;
-      bindings = <&kp LA(RIGHT)>, <&kp GRAVE>;
+      bindings = <&kp LA(L)>, <&kp GRAVE>;
       mods      = <(MOD_LALT|MOD_LGUI)>;
       keep-mods = <(MOD_LALT|MOD_LGUI)>;
     };
@@ -334,7 +334,7 @@
     OMIT_IF_NO_REF ctrl_left: ctrl_left {
       compatible = "zmk,behavior-mod-morph";
       #binding-cells = <0>;
-      bindings = <&kp LC(LEFT)>, <&kp LC(LEFT)>;
+      bindings = <&kp LC(H)>, <&kp LC(H)>;
       mods      = <(MOD_LALT|MOD_LGUI)>;
       keep-mods = <(MOD_LALT|MOD_LGUI)>;
     };
@@ -342,7 +342,7 @@
     OMIT_IF_NO_REF ctrl_right: ctrl_right {
       compatible = "zmk,behavior-mod-morph";
       #binding-cells = <0>;
-      bindings = <&kp LC(RIGHT)>, <&kp LC(RIGHT)>;
+      bindings = <&kp LC(L)>, <&kp LC(L)>;
       mods      = <(MOD_LALT|MOD_LGUI)>;
       keep-mods = <(MOD_LALT|MOD_LGUI)>;
     };
