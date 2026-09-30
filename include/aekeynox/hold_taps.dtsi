@@ -384,7 +384,7 @@
       #binding-cells = <0>;
       bindings = <&kp LS(K)>, <&kp LS(K)>;
       mods      = <(MOD_LALT|MOD_LGUI)>;
-      keep-mods = <(MOD_LALT|MOD_LGUI)>;p
+      keep-mods = <(MOD_LALT|MOD_LGUI)>;
     };
 
     OMIT_IF_NO_REF shift_down: shift_down {
