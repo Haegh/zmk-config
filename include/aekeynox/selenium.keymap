@@ -108,15 +108,16 @@
     //               -- one-shots survive layer switches, so chain into NumRow
     //               -- for Super+number (workspaces) via its &mo thumb key
     //               -- top row: close / terminal+launcher / firefox / panel / files
+    //               -- (close is keycode A: that position yields keysym 'q' on AZERTY)
     //               -- bottom: floating / maximize / overview / center / widths
     //               -- digits are LS(Nx): AZERTY needs Shift for the '1' keysym
     //               -- (repurposed CalTee slot: unreachable under VIM_NAVIGATION)
     niri_layer: niri_layer {
       display-name = "Niri";
       bindings = <SELENIUM_KEYMAP_BINDINGS(
-        &trans  ,  &kp Q        &kp RETURN   &kp B        &kp S         &kp E    ,   &kp PG_UP &kp HOME &kp UP   &kp END    &kp TAB ,  &trans ,
-        &trans  ,  &EZ_SK(LSFT) &EZ_SK(LGUI) &EZ_SK(LCTL) &EZ_SK(LALT)  &trans   ,   &kp PG_DN &kp LEFT &kp DOWN &kp RIGHT  &trans  ,  &trans ,
-        &trans  ,  &kp T        &kp F        &kp O        &kp C         &kp R    ,   &kp N1    &kp N2   &kp N3   &kp N4     &kp N5  ,  &trans ,
+        &trans  ,  &kp A        &kp RETURN   &kp B        &kp S         &kp E    ,   &kp PG_UP &kp HOME &kp UP   &kp END    &kp TAB  ,  &trans ,
+        &trans  ,  &EZ_SK(LSFT) &EZ_SK(LGUI) &EZ_SK(LCTL) &EZ_SK(LALT)  &trans   ,   &kp PG_DN &kp LEFT &kp DOWN &kp RIGHT  &trans   ,  &trans ,
+        &trans  ,  &kp T        &kp F        &kp O        &kp C         &kp R    ,   S_N1      S_N2     S_N3     S_N4       S_N5     ,  &trans ,
                           &kp CAPS , &sc FN_MEDIA_LAYER DEL , &mo NUM_ROW_LAYER  ,   &trans ,  &mo FN_MEDIA_LAYER , &EZ_LSK(RALT)
       )>;
     };
