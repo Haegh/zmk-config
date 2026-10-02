@@ -86,7 +86,7 @@
         &shift_right  ,  &none    X_CTL_W  &vim_prev &vim_next &ctrl_right ,   &kp HOME &kp PG_DN &kp PG_UP &kp END   &kp DEL ,  &ctrl_up ,
         &shift_left   ,  X_ALL    X_SAVE   X_SHTAB   &kp TAB   &ctrl_left  ,   &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &none   ,  &ctrl_down ,
         &shift_up     ,  X_UNDO   X_CUT    X_COPY    X_PASTE   X_REDO      ,   X_MSC_L  X_MSC_D   X_MSC_U   X_MSC_R   &none   ,  &shift_down  ,
-                    &kp CAPS , &sc FN_MEDIA_LAYER DEL , &mo NUM_ROW_LAYER  ,   &trans ,  &mo FN_MEDIA_LAYER , &EZ_LSK(RALT)
+                    &kp CAPS , &sc FN_MEDIA_LAYER DEL , &mo NUM_ROW_LAYER  ,   &EZ_SL(CALLUM_LAYER) ,  &mo FN_MEDIA_LAYER , &EZ_LSK(RALT)
       )>;
     };
 
@@ -103,15 +103,20 @@
       )>;
     };
 
-    // 5. CalTee layer -- one-shot mods on the left hand, inverted T arrow cluster on the right hand
-    //                 -- best used along with the NumRow layer
-    //                 -- some keyboard shortcuts on the left hand are adjusted to the OS layout (Ergol here)
-    cal_tee_layer: cal_tee_layer {
-      display-name = "CalTee";
+    // 5. Niri layer -- one-shot mods on the left hand, nav cluster on the right
+    //               -- tap mods in sequence, no holding: Super, Shift, Left
+    //               -- one-shots survive layer switches, so chain into NumRow
+    //               -- for Super+number (workspaces) via its &mo thumb key
+    //               -- top row: close / terminal+launcher / firefox / panel / files
+    //               -- bottom: floating / maximize / overview / center / widths
+    //               -- digits are LS(Nx): AZERTY needs Shift for the '1' keysym
+    //               -- (repurposed CalTee slot: unreachable under VIM_NAVIGATION)
+    niri_layer: niri_layer {
+      display-name = "Niri";
       bindings = <SELENIUM_KEYMAP_BINDINGS(
-        &trans  ,  &vim_prev    &kp LS(TAB)  &kp TAB      &vim_next     &trans   ,   &kp PG_UP &kp HOME &kp UP   &kp END    &trans  ,  &trans ,
+        &trans  ,  &kp Q        &kp RETURN   &kp B        &kp S         &kp E    ,   &kp PG_UP &kp HOME &kp UP   &kp END    &kp TAB ,  &trans ,
         &trans  ,  &EZ_SK(LSFT) &EZ_SK(LGUI) &EZ_SK(LCTL) &EZ_SK(LALT)  &trans   ,   &kp PG_DN &kp LEFT &kp DOWN &kp RIGHT  &trans  ,  &trans ,
-        &trans  ,  X_UNDO       X_CUT        X_COPY       X_PASTE       X_REDO   ,   &trans    &trans   &trans   &trans     &trans  ,  &trans ,
+        &trans  ,  &kp T        &kp F        &kp O        &kp C         &kp R    ,   &kp N1    &kp N2   &kp N3   &kp N4     &kp N5  ,  &trans ,
                           &kp CAPS , &sc FN_MEDIA_LAYER DEL , &mo NUM_ROW_LAYER  ,   &trans ,  &mo FN_MEDIA_LAYER , &EZ_LSK(RALT)
       )>;
     };
