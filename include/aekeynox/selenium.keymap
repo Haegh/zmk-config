@@ -1,4 +1,4 @@
-// Selenium keymap:
+  // Selenium keymap:
 // https://github.com/OneDeadKey/selenium
 
 // Standard ZMK headers
@@ -86,7 +86,7 @@
         &shift_right  ,  &none    X_CTL_W  &vim_prev &vim_next &ctrl_right ,   &kp HOME &kp PG_DN &kp PG_UP &kp END   &kp DEL ,  &ctrl_up ,
         &shift_left   ,  X_ALL    X_SAVE   X_SHTAB   &kp TAB   &ctrl_left  ,   &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &none   ,  &ctrl_down ,
         &shift_up     ,  X_UNDO   X_CUT    X_COPY    X_PASTE   X_REDO      ,   X_MSC_L  X_MSC_D   X_MSC_U   X_MSC_R   &none   ,  &shift_down  ,
-                    &kp CAPS , &sc FN_MEDIA_LAYER DEL , &mo NUM_ROW_LAYER  ,   &EZ_SL(CALLUM_LAYER) ,  &mo FN_MEDIA_LAYER , &EZ_LSK(RALT)
+                    &kp CAPS , &sc FN_MEDIA_LAYER DEL , &mo NUM_ROW_LAYER  ,   &trans ,  &mo FN_MEDIA_LAYER , &EZ_LSK(RALT)
       )>;
     };
 
@@ -115,9 +115,9 @@
     niri_layer: niri_layer {
       display-name = "Niri";
       bindings = <SELENIUM_KEYMAP_BINDINGS(
-        &trans  ,  &kp A        &kp RETURN   &kp B        &kp S         &kp E    ,   &kp PG_UP &kp HOME &kp UP   &kp END    &kp TAB  ,  &trans ,
-        &trans  ,  &EZ_SK(LSFT) &EZ_SK(LGUI) &EZ_SK(LCTL) &EZ_SK(LALT)  &trans   ,   &kp PG_DN &kp LEFT &kp DOWN &kp RIGHT  &trans   ,  &trans ,
-        &trans  ,  &kp T        &kp F        &kp O        &kp C         &kp R    ,   S_N1      S_N2     S_N3     S_N4       S_N5     ,  &trans ,
+        &kp TAB ,  &kp A        &kp RETURN   &kp B        &kp S         &kp E    ,   &kp HOME  &kp PG_DN &kp PG_UP  &kp END    &kp DEL ,  &trans ,
+        &trans  ,  &EZ_SK(LSFT) &EZ_SK(LGUI) &EZ_SK(LCTL) &EZ_SK(LALT)  &trans   ,   &kp LEFT  &kp DOWN  &kp UP     &kp RIGHT  &trans  ,  &trans ,
+        &trans  ,  &kp T        &kp F        &kp O        &kp C         &kp R    ,   &kp N1    &kp N2    &kp N3     &kp N4     &kp N5  ,  &trans ,
                           &kp CAPS , &sc FN_MEDIA_LAYER DEL , &mo NUM_ROW_LAYER  ,   &trans ,  &mo FN_MEDIA_LAYER , &EZ_LSK(RALT)
       )>;
     };
